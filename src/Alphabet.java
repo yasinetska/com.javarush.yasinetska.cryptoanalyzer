@@ -1,5 +1,4 @@
-import java.lang.reflect.Array;
-import java.util.Arrays;
+
 
 public class Alphabet {
     public static final char[] ALPHABET = {'а', 'б', 'в', 'г', 'д', 'е', 'ж', 'з',

@@ -1,3 +1,4 @@
+import java.util.Scanner;
 
 public class Cipher {
 
@@ -49,4 +50,25 @@ public class Cipher {
         }
         return new String(newChars);
        }
+
+    public static String decryptByBruteForce(String encryptedText) {
+        Scanner scanner = new Scanner(System.in);
+        StringBuilder stringBuilder;
+        String decryptByBruteForce = "";
+
+        for (int i = 0; i < Alphabet.ALPHABET.length; i++) {
+            stringBuilder = new StringBuilder(decrypt(encryptedText, i));
+
+            System.out.println("Подходит ли такой вариант расшифровки?\nРасшифрованный текст: \n" + stringBuilder.substring(0, 35) +
+                    "\n1.Да\n2.Нет, продолжить поиск");
+            int answer = Integer.parseInt(scanner.nextLine());
+            if (answer == 1) {
+                decryptByBruteForce = stringBuilder.toString();
+                break;
+            } else if (answer == 2) {
+                continue;
+            }
+        }
+        return decryptByBruteForce;
+    }
 }

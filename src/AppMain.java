@@ -1,43 +1,34 @@
-import java.util.Arrays;
 import java.util.Scanner;
 
 public class AppMain {
     public static void main(String[] args) {
-        for (String s : Arrays.asList("Добро пожаловать! Это криптоанализатор Шифр Цезаря.",
-                "Что бы вы хотели сделать?",
-                "1. Шифровка",
-                "2. Расшифровка",
-                "3. Расшифровка методом Brute Force",
-                "4. Выход",
-                "Введите соответствующую цифру: ")) {
-            System.out.println(s);
-        }
+
+        System.out.println(Text.HELLO_TEXT);
 
         Scanner scanner = new Scanner(System.in);
-        int number = scanner.nextInt();
-        scanner.nextLine();
+        int number = Integer.parseInt(scanner.nextLine());
 
         switch (number) {
             case 1:
-                System.out.print("Введите путь к файлу: ");
+                System.out.print(Text.ENTER_PATH_ENCRYPT);
                 String pathText = scanner.nextLine();
                 if (!Validator.isFileExists(pathText)) {
-                    System.out.println("Файл не найден. Перезапустите программу и введите путь к файлу.");
+                    System.out.println(Text.ERROR_PATH_ENCRYPT);
                     break;
                 }
 
-                System.out.print("Введите ключ: ");
-                int shiftEncrypt = scanner.nextInt();
+                System.out.print(Text.ENTER_KEY);
+                int shiftEncrypt = Integer.parseInt(scanner.nextLine());
                 if (!Validator.isValidKey(shiftEncrypt, Alphabet.ALPHABET)) {
-                    System.out.println("Некорректный ключ. Перезапустите программу и введите кдюч.");
+                    System.out.println(Text.ERROR_KEY);
                     break;
                 }
-                scanner.nextLine();
 
-                System.out.print("Введите путь для зашифрованного файла: ");
+                System.out.print(Text.ENTER_PATH_SAVE);
                 String pathEncrypted = scanner.nextLine();
+                FileWR.createFile(pathEncrypted);
                 if (!Validator.isFileExists(pathEncrypted)) {
-                    System.out.println("Файл не найден. Перезапустите программу и введите путь для зашифрованного файла.");
+                    System.out.println(Text.ERROR_PATH_DECRYPT);
                     break;
                 }
 
@@ -47,25 +38,26 @@ public class AppMain {
                 break;
 
             case 2:
-                System.out.println("Введите путь к файлу: ");
+                System.out.println(Text.ENTER_PATH_DECRYPT);
                 String pathEncrText = scanner.nextLine();
                 if (!Validator.isFileExists(pathEncrText)) {
-                    System.out.println("Файл не найден. Перезапустите программу и введите путь к файлу.");
+                    System.out.println(Text.ERROR_PATH_DECRYPT);
                     break;
                 }
 
                 System.out.print("Введите ключ: ");
-                int shiftDecrypt = scanner.nextInt();
+                int shiftDecrypt = Integer.parseInt(scanner.nextLine());
                 if (!Validator.isValidKey(shiftDecrypt, Alphabet.ALPHABET)) {
-                    System.out.println("Некорректный ключ. Перезапустите программу и введите кдюч.");
+                    System.out.println(Text.ERROR_KEY);
                     break;
                 }
-                scanner.nextLine();
 
-                System.out.print("Введите путь для расшифрованного файла: ");
+                System.out.print(Text.ENTER_PATH_ENCRYPT);
                 String pathDecrypted = scanner.nextLine();
+                FileWR.createFile(pathDecrypted);
+
                 if (!Validator.isFileExists(pathDecrypted)) {
-                    System.out.println("Файл не найден. Перезапустите программу и введите путь для расшифрованного файла.");
+                    System.out.println(Text.ERROR_PATH_ENCRYPT);
                     break;
                 }
 
@@ -75,28 +67,28 @@ public class AppMain {
                 break;
 
             case 3:
-                System.out.println("Введите путь к зашифрованному файлу: ");
+                System.out.println(Text.ENTER_PATH_DECRYPT);
                 String pathEncr = scanner.nextLine();
                 if (!Validator.isFileExists(pathEncr)) {
-                    System.out.println("Файл не найден. Перезапустите программу и введите путь к файлу.");
+                    System.out.println(Text.ERROR_PATH_DECRYPT);
                     break;
                 }
 
-                System.out.print("Введите путь для расшифрованного файла: ");
+                System.out.print(Text.ENTER_PATH_SAVE);
                 String pathDecr = scanner.nextLine();
+                FileWR.createFile(pathDecr);
                 if (!Validator.isFileExists(pathDecr)) {
-                    System.out.println("Файл не найден. Перезапустите программу и введите путь для расшифрованного файла.");
+                    System.out.println(Text.ERROR_PATH_ENCRYPT);
                     break;
                 }
                 String encrText = FileWR.readFile(pathEncr);
-                //String decrText = Cipher.decryptByBruteForce(encrText);
-                //FileWR.writeFile(decrText, pathDecr);
+                String decrText = Cipher.decryptByBruteForce(encrText);
+                FileWR.writeFile(decrText, pathDecr);
+
                 break;
 
-
-
             case 4:
-                System.out.println("Пока!");
+                System.out.println(Text.GOOD_BYE);
                 break;
         }
     }
